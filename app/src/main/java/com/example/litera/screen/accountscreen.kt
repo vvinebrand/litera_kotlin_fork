@@ -1,3 +1,14 @@
+/**
+ * AccountScreen.kt
+ *
+ * Экран профиля:
+ *  • Больше не хранит `selectedItemIndex` и не рисует свой BottomBar —
+ *    общий бар живёт в MainActivity/NavHost.
+ *  • Пока никуда не переходит: NavController не требуется. Если позже
+ *    появятся «Настройки» / «Детали книги», просто добавьте параметр
+ *    `navController: NavController` и вызывайте `navController.navigate(...)`.
+ */
+
 package com.example.litera.screen
 
 import androidx.compose.foundation.background
@@ -5,132 +16,114 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person // Иконка для профиля
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.font.FontWeight
 
-@OptIn(ExperimentalMaterial3Api::class) // Нужен для Scaffold и TopAppBar
+/* ──────────────────────────────────────────────────────────── */
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AccountScreen() {
-    // Состояние для отслеживания выбранного пункта навигации
-    // Индекс 3 соответствует "Профиль" в вашем BottomNavigationBar (Главная=0, Библиотека=1, Поиск=2, Профиль=3)
-    var selectedItemIndex by remember { mutableStateOf(3) }
 
     Scaffold(
         topBar = {
             TopAppBar(
                 title = {
                     Text(
-                        text = "Профиль", // Можно оставить "Профиль" или убрать, если дизайн его не предусматривает
+                        text = "Профиль",
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF2C3E50)
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White // Фон верхней панели, как в других экранах
-                )
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
-        },
-        bottomBar = {
-            BottomNavigationBar(selectedItemIndex = selectedItemIndex) { index ->
-                selectedItemIndex = index
-                // TODO: Здесь будет логика навигации к соответствующему экрану
-            }
         }
+        // bottomBar нет – его рисует MainActivity
     ) { innerPadding ->
+
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color(0xFFF8FDF5)) // Светлый фон из ваших примеров
+                .background(Color(0xFFF8FDF5))
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp), // Горизонтальные отступы для контента
-            horizontalAlignment = Alignment.CenterHorizontally // Центрируем элементы по горизонтали
+                .padding(horizontal = 16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(modifier = Modifier.height(24.dp)) // Отступ сверху
 
-            // Блок Аватара и Логина
+            Spacer(Modifier.height(24.dp))
+
+            /* Аватар + логин */
             Box(
                 modifier = Modifier
-                    .size(100.dp) // Размер заглушки аватара
-                    .background(Color.LightGray, shape = CircleShape), // Круглая форма и серый цвет
+                    .size(100.dp)
+                    .background(Color.LightGray, CircleShape),
                 contentAlignment = Alignment.Center
             ) {
-                // Здесь может быть иконка или изображение аватара
                 Icon(
-                    Icons.Default.Person, // Пример иконки, если нет изображения
-                    contentDescription = "Аватар пользователя",
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Аватар",
                     modifier = Modifier.size(60.dp),
                     tint = Color.Gray
                 )
             }
-            Spacer(modifier = Modifier.height(8.dp))
+
+            Spacer(Modifier.height(8.dp))
+
             Text(
-                text = "Логин", // Текст "Логин"
+                text = "Логин",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color(0xFF2C3E50)
             )
-            Spacer(modifier = Modifier.height(32.dp)) // Отступ до статистики
 
-            // Заголовок "Статистика"
-            AlignStartText(text = "Статистика", fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(Modifier.height(32.dp))
 
-            // Карточки статистики
-            StatisticCard(
-                value = "3",
-                unit = "книги",
-                description = "прочитано"
-            )
-            Spacer(modifier = Modifier.height(12.dp)) // Отступ между карточками
-            StatisticCard(
-                value = "927",
-                unit = "стр",
-                description = "прочитано"
-            )
-            Spacer(modifier = Modifier.height(12.dp))
-            StatisticCard(
-                value = "3ч57мин",
-                unit = "", // Нет единицы, так как "часы и минуты" уже в значении
-                description = "время за чтением"
-            )
-            Spacer(modifier = Modifier.height(32.dp)) // Отступ до кнопки "Выйти"
+            AlignStartText("Статистика", 24.sp, FontWeight.Bold)
+            Spacer(Modifier.height(16.dp))
 
-            // Кнопка "Выйти"
+            /* Карточки статистики */
+            StatisticCard("3",   "книги", "прочитано")
+            Spacer(Modifier.height(12.dp))
+            StatisticCard("927", "стр",   "прочитано")
+            Spacer(Modifier.height(12.dp))
+            StatisticCard("3ч57мин", "",  "время за чтением")
+
+            Spacer(Modifier.height(32.dp))
+
             Button(
-                onClick = { /* TODO: Действие для выхода из аккаунта */ },
+                onClick = { /* TODO: Logout */ },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(56.dp),
-                shape = RoundedCornerShape(12.dp), // Скругленные углы
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE53935)) // Красный цвет кнопки
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFE53935))
             ) {
                 Text(
-                    text = "Выйти", // Текст кнопки
+                    text = "Выйти",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp)) // Отступ снизу
+
+            Spacer(Modifier.height(16.dp))
         }
     }
 }
 
+/* ─── Вспомогательные компоненты ─────────────────────────── */
+
 @Composable
-fun AlignStartText(text: String, fontSize: androidx.compose.ui.unit.TextUnit, fontWeight: FontWeight) {
+private fun AlignStartText(text: String, fontSize: androidx.compose.ui.unit.TextUnit, fontWeight: FontWeight) {
     Text(
         text = text,
         fontSize = fontSize,
@@ -138,17 +131,17 @@ fun AlignStartText(text: String, fontSize: androidx.compose.ui.unit.TextUnit, fo
         color = Color(0xFF2C3E50),
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentWidth(Alignment.Start) // Выравнивание по левому краю
+            .wrapContentWidth(Alignment.Start)
     )
 }
 
 @Composable
-fun StatisticCard(value: String, unit: String, description: String) {
+private fun StatisticCard(value: String, unit: String, description: String) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp), // Скругленные углы карточек
+        shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp) // Небольшая тень
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier = Modifier
@@ -159,37 +152,41 @@ fun StatisticCard(value: String, unit: String, description: String) {
             Column(modifier = Modifier.weight(1f)) {
                 Row(verticalAlignment = Alignment.Bottom) {
                     Text(
-                        text = value, // Значение статистики (например, "3", "927", "3ч57мин")
+                        text = value,
                         fontSize = 28.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Red // Красный цвет значения
+                        color = Color.Red
                     )
-                    Spacer(modifier = Modifier.width(4.dp))
-                    Text(
-                        text = unit, // Единица измерения (например, "книги", "стр")
-                        fontSize = 16.sp,
-                        color = Color.Red, // Красный цвет единицы
-                        modifier = Modifier.padding(bottom = 2.dp) // Немного опустить, чтобы выровнять по нижней линии
-                    )
+                    if (unit.isNotBlank()) {
+                        Spacer(Modifier.width(4.dp))
+                        Text(
+                            text = unit,
+                            fontSize = 16.sp,
+                            color = Color.Red,
+                            modifier = Modifier.padding(bottom = 2.dp)
+                        )
+                    }
                 }
                 Text(
-                    text = description, // Описание (например, "прочитано", "время за чтением")
+                    text = description,
                     fontSize = 14.sp,
                     color = Color.Gray
                 )
             }
-            // Пустая заглушка справа, как на макете
+
             Box(
                 modifier = Modifier
                     .size(40.dp)
-                    .background(Color.LightGray.copy(alpha = 0.3f), shape = RoundedCornerShape(8.dp))
+                    .background(Color.LightGray.copy(alpha = 0.3f), RoundedCornerShape(8.dp))
             )
         }
     }
 }
 
+/* ─── Preview ─────────────────────────────────────────────── */
+
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
-fun AccountScreenPreview() {
+private fun AccountScreenPreview() {
     AccountScreen()
 }

@@ -3,10 +3,7 @@ package com.example.litera.screen
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -16,14 +13,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.litera.R // Убедитесь, что импорт R правильный
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import com.example.litera.R
+import com.example.litera.navigation.Screen
 
-// Определяем цвета, чтобы их было легко изменять
-val backgroundColor = Color(0xFFF5FBF6) // Светло-зеленоватый фон
-val primaryRed = Color(0xFFEA4335)     // Красный для кнопок, текста и лого
+private val backgroundColor = Color(0xFFF5FBF6)
+private val primaryRed      = Color(0xFFEA4335)
 
 @Composable
-fun FirstScreen() {
+fun FirstScreen(navController: NavController) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = backgroundColor
@@ -31,64 +30,58 @@ fun FirstScreen() {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 40.dp), // Горизонтальные отступы для кнопок
+                .padding(horizontal = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            // Секция с логотипом и названием
-            // Spacer выталкивает эту секцию немного вверх от центра
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(Modifier.weight(1f))          // ↑ сдвигает логотип чуть выше центра
 
             Image(
-                painter = painterResource(id = R.drawable.logo), // Ваш логотип
+                painter = painterResource(id = R.drawable.logo),
                 contentDescription = "Логотип Litera",
-                modifier = Modifier.size(100.dp) // Размер логотипа
+                modifier = Modifier.size(100.dp)
             )
 
-            Spacer(modifier = Modifier.height(12.dp)) // Пространство между лого и текстом
+            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.weight(1.5f))        // ↓ оставляет место для кнопок
 
-            // Динамическое пространство, которое займет все оставшееся место
-            // и отодвинет кнопки вниз
-            Spacer(modifier = Modifier.weight(1.5f))
+            AuthButton("Вход") {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.First.route) { inclusive = true }
+                }
+            }
 
-            // Секция с кнопками
-            AuthButton(text = "Вход", onClick = { /* TODO: Действие для входа */ })
+            Spacer(Modifier.height(16.dp))
 
-            Spacer(modifier = Modifier.height(16.dp)) // Пространство между кнопками
+            AuthButton("Регистрация") {
+                navController.navigate(Screen.Home.route) {
+                    popUpTo(Screen.First.route) { inclusive = true }
+                }
+            }
 
-            AuthButton(text = "Регистрация", onClick = { /* TODO: Действие для регистрации */ })
-
-            // Небольшой отступ снизу
-            Spacer(modifier = Modifier.weight(0.5f))
+            Spacer(Modifier.weight(0.5f))
         }
     }
 }
 
-// Переиспользуемая Composable-функция для кнопок
 @Composable
-fun AuthButton(text: String, onClick: () -> Unit) {
+private fun AuthButton(text: String, onClick: () -> Unit) {
     Button(
         onClick = onClick,
         modifier = Modifier
-            .fillMaxWidth() // Кнопка на всю ширину с учетом padding у Column
-            .height(50.dp), // Высота кнопки
-        shape = RoundedCornerShape(16.dp), // Скругление углов
+            .fillMaxWidth()
+            .height(50.dp),
+        shape = RoundedCornerShape(16.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = primaryRed, // Цвет фона кнопки
-            contentColor = Color.White    // Цвет текста на кнопке
+            containerColor = primaryRed,
+            contentColor   = Color.White
         )
-    ) {
-        Text(
-            text = text,
-            fontSize = 18.sp,
-            fontWeight = FontWeight.Medium
-        )
-    }
+    ) { Text(text = text, fontSize = 18.sp, fontWeight = FontWeight.Medium) }
 }
 
-// Функция для предпросмотра в Android Studio
+/* Preview без навигации */
 @Preview(showBackground = true)
 @Composable
-fun FirstScreenPreview() {
-    FirstScreen()
+private fun FirstScreenPreview() {
+    FirstScreen(navController = rememberNavController())
 }
