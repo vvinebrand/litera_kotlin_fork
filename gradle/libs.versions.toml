@@ -1,20 +1,53 @@
 [versions]
-agp = "8.9.1"
+agp = "8.9.3"
+android = "1.34.1"
+coilCompose = "2.5.0"
+epublibCore = "3.1"
 firebaseBom = "33.16.0"
-kotlin = "2.0.21"
+googleApiServicesDrive = "v3-rev20230815-2.0.0"
+kotlin = "2.1.0"
 coreKtx = "1.16.0"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
-lifecycleRuntimeKtx = "2.9.0"
+kotlinxCoroutinesPlayServices = "1.7.3"
+kotlinxCoroutinesPlayServicesVersion = "1.7.1"
+lifecycleRuntimeKtx = "2.9.1"
 activityCompose = "1.10.1"
-composeBom = "2024.09.00"
-navigationCompose = "2.9.0"
+composeBom = "2025.06.01"
+navigationCompose = "2.9.1"
 gmsVersion = "4.4.3"
+firebaseAuthKtx = "23.2.1"
+playServicesAuth = "21.3.0"
+playServicesAuthVersion = "21.3.0"
+epublib        = "3.1"
+fictionbooklib = "0.2.7"
+pdfbox         = "2.0.31"
 
 [libraries]
+
+# ── EPUB ─────────────────────────────
+epublib = { group = "nl.siegmann.epublib", name = "epublib-core", version.ref = "epublib" }
+
+# ── FB2  (старый артефакт лежит в JCenter) ──
+fictionbooklib = { group = "org.fbreader",    name = "fictionBookLib", version.ref = "fictionbooklib" }
+
+# ── PDF ──────────────────────────────
+pdfbox = { group = "org.apache.pdfbox", name = "pdfbox", version.ref = "pdfbox" }
+
+googleApiClientAndroid  = { group = "com.google.api-client",  name = "google-api-client-android",  version = "1.34.1" }
+googleHttpClientAndroid = { group = "com.google.http-client", name = "google-http-client-android", version = "1.43.3" }
+googleHttpClientGson    = { group = "com.google.http-client", name = "google-http-client-gson",    version = "1.43.3" }
+googleApiServicesDrive  = { group = "com.google.apis",        name = "google-api-services-drive",  version = "v3-rev20230815-2.0.0" }
+
+playServicesAuth        = { group = "com.google.android.gms", name = "play-services-auth",         version = "20.7.0" }
+coroutinesPlay          = { group = "org.jetbrains.kotlinx",  name = "kotlinx-coroutines-play-services", version = "1.7.1" }
+
+android = { module = "com.google.api-client:android", version.ref = "android" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-firestore = {group = "com.google.firebase", name = "firebase-firestore-ktx"}
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -30,6 +63,7 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-auth-ktx", version.ref = "firebaseAuthKtx" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

@@ -38,6 +38,12 @@ android {
     buildFeatures {
         compose = true
     }
+    packaging {
+        resources {
+            pickFirsts += "META-INF/DEPENDENCIES"
+        }
+    }
+
 }
 
 dependencies {
@@ -53,6 +59,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.firebase.auth.ktx)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -60,4 +67,17 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+    implementation(libs.androidx.material.icons.extended)
+    implementation(libs.coil.compose)
+    // ── Google Drive + Sign-In ──
+    implementation(libs.playServicesAuth)
+    implementation(libs.googleApiClientAndroid)
+    implementation(libs.googleHttpClientAndroid)
+    implementation(libs.googleHttpClientGson)
+    implementation(libs.googleApiServicesDrive)
+    implementation(libs.coroutinesPlay)
+    // —— EPUB + FB2 + PDF ——
+    implementation(files("libs/fb2parser.jar"))
+    implementation(files("libs/fictionBookLib-0.2.7.jar"))
+    implementation(libs.pdfbox)
 }

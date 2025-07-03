@@ -9,42 +9,47 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.*
-import com.example.litera.navigation.bottomScreens
 import com.example.litera.components.LiteraBottomBar
+import com.example.litera.navigation.Screen
+import com.example.litera.navigation.bottomScreens
 import com.example.litera.screen.*
-import com.example.litera.navigation.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            val navController = rememberNavController()
-            val backEntry     by navController.currentBackStackEntryAsState()
-            val currentRoute  = backEntry?.destination?.route
 
-            val showBottomBar = currentRoute in bottomScreens.map { it.route }
+        setContent {
+            /* ───── 1. Один-единственный NavController ───── */
+            val navController = rememberNavController()
+
+            /* ───── 2. Следим за текущим маршрутом ───── */
+            val backEntry  by navController.currentBackStackEntryAsState()
+            val current    = backEntry?.destination?.route
+            val showBar    = current in bottomScreens.map { it.route }
 
             Scaffold(
-                bottomBar = {
-                    if (showBottomBar) {
-                        LiteraBottomBar(navController)
-                    }
-                }
-            ) { innerPadding ->
+                bottomBar = { if (showBar) LiteraBottomBar(navController) }
+            ) { inner ->
+                /* ───── 3. NavHost со ВСЕМИ экранами ───── */
                 NavHost(
                     navController,
                     startDestination = Screen.First.route,
-                    modifier = Modifier.padding(innerPadding)
+                    modifier = Modifier.padding(inner)
                 ) {
-                    composable(Screen.First.route)      { FirstScreen(navController) }
-                    composable(Screen.Home.route)       { HomeScreen() }
-                    composable(Screen.Library.route)    { LibraryScreen(navController) }
-                    composable(Screen.Search.route)     { SearchScreen() }
-                    composable(Screen.Profile.route)    { AccountScreen() }
-                    composable(Screen.Collections.route){ CollectionsScreen(navController) }
-                }
-            }
+                    composable(Screen.First.route)       { FirstScreen(navController) }
 
+                    composable(Screen.Auth.route)        { AuthScreen(navController) }
+                    composable(Screen.Register.route)    { RegistrationScreen(navController) }
+
+                    composable(Screen.Home.route)        { HomeScreen() }
+                    composable(Screen.Library.route)     { LibraryScreen(navController) }
+                    composable(Screen.Search.route)      { SearchScreen() }
+                    composable(Screen.Profile.route)     { AccountScreen(navController) }  // ✔
+                    composable(Screen.Collections.route) { CollectionsScreen(navController) }
+                }
+
+
+            }
         }
     }
 }

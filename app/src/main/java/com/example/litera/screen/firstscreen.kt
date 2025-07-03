@@ -1,13 +1,18 @@
+/**
+ * FirstScreen.kt
+ * Welcome-экран: показывает логотип + две кнопки.
+ *   • «Вход»  →  Screen.Auth
+ *   • «Регистрация» → Screen.Register
+ */
+
 package com.example.litera.screen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -17,15 +22,15 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.litera.R
 import com.example.litera.navigation.Screen
-
-private val backgroundColor = Color(0xFFF5FBF6)
-private val primaryRed      = Color(0xFFEA4335)
+import com.example.litera.ui.AuthButton       // из UiKit.kt
+import com.example.litera.ui.BackgroundColor // из UiKit.kt
 
 @Composable
 fun FirstScreen(navController: NavController) {
+
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = backgroundColor
+        color = BackgroundColor
     ) {
         Column(
             modifier = Modifier
@@ -34,7 +39,8 @@ fun FirstScreen(navController: NavController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Spacer(Modifier.weight(1f))          // ↑ сдвигает логотип чуть выше центра
+            /* логотип */
+            Spacer(Modifier.weight(1f))
 
             Image(
                 painter = painterResource(id = R.drawable.logo),
@@ -43,18 +49,20 @@ fun FirstScreen(navController: NavController) {
             )
 
             Spacer(Modifier.height(12.dp))
-            Spacer(Modifier.weight(1.5f))        // ↓ оставляет место для кнопок
+            Spacer(Modifier.weight(1.5f))
 
+            /* кнопка «Вход» */
             AuthButton("Вход") {
-                navController.navigate(Screen.Home.route) {
+                navController.navigate(Screen.Auth.route) {
                     popUpTo(Screen.First.route) { inclusive = true }
                 }
             }
 
             Spacer(Modifier.height(16.dp))
 
+            /* кнопка «Регистрация» */
             AuthButton("Регистрация") {
-                navController.navigate(Screen.Home.route) {
+                navController.navigate(Screen.Register.route) {
                     popUpTo(Screen.First.route) { inclusive = true }
                 }
             }
@@ -64,24 +72,9 @@ fun FirstScreen(navController: NavController) {
     }
 }
 
-@Composable
-private fun AuthButton(text: String, onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(50.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = primaryRed,
-            contentColor   = Color.White
-        )
-    ) { Text(text = text, fontSize = 18.sp, fontWeight = FontWeight.Medium) }
-}
-
-/* Preview без навигации */
+/* Preview — создаём временный NavController */
 @Preview(showBackground = true)
 @Composable
 private fun FirstScreenPreview() {
-    FirstScreen(navController = rememberNavController())
+    FirstScreen(rememberNavController())
 }
