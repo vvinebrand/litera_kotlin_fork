@@ -84,12 +84,23 @@ fun LibraryScreen(navController: NavController) {
             TopAppBar(
                 title = { Text("Библиотека", 28.sp, FontWeight.Bold, Color(0xFF2C3E50)) },
                 actions = {
-                    IconButton {
-                        launcher.launch(arrayOf(
-                            "application/epub+zip",
-                            "application/*fb2*",
-                            "application/pdf"))
-                    }      { Icon(Icons.Default.Add, null, tint = Color(0xFF2C3E50)) }
+                    IconButton(
+                        onClick = {
+                            launcher.launch(
+                                arrayOf(
+                                    "application/epub+zip",
+                                    "application/*fb2*",
+                                    "application/pdf"
+                                )
+                            )
+                        }
+                    ) {
+                        Icon(
+                            Icons.Default.Add,
+                            contentDescription = null,
+                            tint = Color(0xFF2C3E50)
+                        )
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.White)
             )
