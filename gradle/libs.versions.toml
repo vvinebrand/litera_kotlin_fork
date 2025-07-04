@@ -2,7 +2,6 @@
 agp = "8.9.3"
 android = "1.34.1"
 coilCompose = "2.5.0"
-epublibCore = "3.1"
 firebaseBom = "33.16.0"
 googleApiServicesDrive = "v3-rev20230815-2.0.0"
 kotlin = "2.1.0"
@@ -20,28 +19,16 @@ gmsVersion = "4.4.3"
 firebaseAuthKtx = "23.2.1"
 playServicesAuth = "21.3.0"
 playServicesAuthVersion = "21.3.0"
-epublib        = "3.1"
-fictionbooklib = "0.2.7"
-pdfbox         = "2.0.31"
 
 [libraries]
-
-# ── EPUB ─────────────────────────────
-epublib = { group = "nl.siegmann.epublib", name = "epublib-core", version.ref = "epublib" }
-
-# ── FB2  (старый артефакт лежит в JCenter) ──
-fictionbooklib = { group = "org.fbreader",    name = "fictionBookLib", version.ref = "fictionbooklib" }
-
-# ── PDF ──────────────────────────────
-pdfbox = { group = "org.apache.pdfbox", name = "pdfbox", version.ref = "pdfbox" }
 
 googleApiClientAndroid  = { group = "com.google.api-client",  name = "google-api-client-android",  version = "1.34.1" }
 googleHttpClientAndroid = { group = "com.google.http-client", name = "google-http-client-android", version = "1.43.3" }
 googleHttpClientGson    = { group = "com.google.http-client", name = "google-http-client-gson",    version = "1.43.3" }
 googleApiServicesDrive  = { group = "com.google.apis",        name = "google-api-services-drive",  version = "v3-rev20230815-2.0.0" }
 
-playServicesAuth        = { group = "com.google.android.gms", name = "play-services-auth",         version = "20.7.0" }
-coroutinesPlay          = { group = "org.jetbrains.kotlinx",  name = "kotlinx-coroutines-play-services", version = "1.7.1" }
+playServicesAuth        = { group = "com.google.android.gms", name = "play-services-auth",         version = "21.3.0" }
+coroutinesPlay          = { group = "org.jetbrains.kotlinx",  name = "kotlinx-coroutines-play-services", version = "1.7.3" }
 
 android = { module = "com.google.api-client:android", version.ref = "android" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }

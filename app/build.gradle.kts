@@ -77,7 +77,4 @@ dependencies {
     implementation(libs.googleApiServicesDrive)
     implementation(libs.coroutinesPlay)
     // —— EPUB + FB2 + PDF ——
-    implementation(files("libs/fb2parser.jar"))
-    implementation(files("libs/fictionBookLib-0.2.7.jar"))
-    implementation(libs.pdfbox)
 }

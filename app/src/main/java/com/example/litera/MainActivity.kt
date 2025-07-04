@@ -44,8 +44,12 @@ class MainActivity : ComponentActivity() {
                     composable(Screen.Home.route)        { HomeScreen() }
                     composable(Screen.Library.route)     { LibraryScreen(navController) }
                     composable(Screen.Search.route)      { SearchScreen() }
-                    composable(Screen.Profile.route)     { AccountScreen(navController) }  // ✔
+                    composable(Screen.Profile.route)     { AccountScreen(navController) }
                     composable(Screen.Collections.route) { CollectionsScreen(navController) }
+                    composable("reader/{path}") {
+                        val path = it.arguments?.getString("path")!!
+                        BookReaderScreen(path)
+                    }
                 }
 
 
